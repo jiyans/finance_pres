@@ -67,8 +67,9 @@ Random Walk theory can basically be interpreted as a special case of the Fair Ga
 
 #+REVEAL: split
 
+#+CAPTION: * Coefficient is twice its computed standard error.
 [[file:./images/screenshot-05.png]]
- * Coefficient is twice its computed standard error.
+
 ** Other Tests of Independence In The Random Walk Literature
 :PROPERTIES:
 :NOTER_PAGE: 15
@@ -99,20 +100,24 @@ Stock splits: 株式分割
  - Stocks were usually split in extraordinarily good times
 
 #+REVEAL: split
+#+CAPTION: Small increase in cumulative average residuals after dividend increases
 [[file:./images/screenshot-06.png]]
 
 #+REVEAL: split
+#+CAPTION: Sizeable decreases in cumulative average residuals after dividend decreases
 [[file:./images/screenshot-07.png]]
 
 *** Considering Dividend increases and decreases
- - When the dividend increases after a split, we can see that there are slight increases in stock price
- - When the dividend decreases after a split, the stock prices decreases a lot, and falls to around the level of 5 months before the split
+ - When the dividend increases after a split, we can see that there are slight increases
+ - When the dividend decreases after a split, the cumulative average residuals decrease a lot, and falls to around the level of 5 months before the split
  - This might be the level of when we first hear about the stock dividends
+
 #+REVEAL: split
+#+CAPTION: Considered as a whole, the residuals stay largely the same after stock splits
 [[file:./images/screenshot-08.png]]
 *** Considering the splits as a whole
- - We can see that when considering all splits as a whole
-   the stock price stays the same and thus we can say that the market captures all publicly available information
+ - We can see that when considering all splits as a whole the cumulative average residuals stay the same after the stock split
+ - thus we can say that the market captures all publicly available information
 ** Other studies of public announcements
  - Annual earnings announcements
  - Announcements of discount rate changes
