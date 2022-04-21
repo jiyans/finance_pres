@@ -1,33 +1,16 @@
-* Egonet
-#+begin_src dot :file images/egonet.png
-
-digraph EgoNet {
-
-リーガルリリー
-A -> リーガルリリー[center = true]
-B -> リーガルリリー
-C -> リーガルリリー
-D -> リーガルリリー
-
-
-C -> D
-
-A -> B
-
-D -> C
-
-E -> A
-F -> A
-G -> A
-G -> E
-E -> B
-F -> B
-G -> B
-H -> G [color = red]
+* Theories/Tests
+#+begin_src dot :file images/theories_tests.png :exports results
+digraph theories_tests {
+        rankdir="LR"
+        "Weak-Form" -> "Fair Games"
+        "Fair Games" -> "Weak-form"
 
 }
 
 #+end_src
+
+#+RESULTS:
+[[file:images/theories_tests.png]]
 
 * Degree Distribution
 #+begin_src dot :file images/degree_dist.png

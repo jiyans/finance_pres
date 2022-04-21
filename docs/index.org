@@ -1,286 +1,127 @@
-#+TITLE: Sony Music Entertainment
-#+SUBTITLE: ネットワーク分析
-#+Bibliography: /Users/jiyanschneider/Dropbox/Documents/lib/bibliography/bib.bib
-#+EXPORT_OPTIONS: num:nil toc:nil reveal_keyboard:t reveal_overview:t reveal_global_footer:t reveal_global_header:t
+#+TITLE: Efficient capital markets
+#+SUBTITLE: A review of theory and empirical work
+#+AUTHOR: Jiyan Jonas Schneider
+#+Bibliography: /home/jjs/Dropbox/Documents/lib/bibliography/bib.bib
+#+OPTIONS: H:4 toc:2 num:nil
+:REVEAL_PROPERTIES:
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+#+REVEAL_REVEAL_JS_VERSION: 4
 #+REVEAL_TITLE_SLIDE: <h1>%t</h1><br><h2>%s</h2><br><h4>%a</h4>
-#+REVEAL_ROOT: ./reveal.js/
-#+REVEAL_EXTRA_CSS: custom.css
 #+REVEAL_THEME: serif
-#+BEAMER_FRAME_LEVEL: 2
-#+OPTIONS: toc:nil
-* データの確認
-#+BEGIN_NOTES
-
-その他のデータ：
-    ネクライトーキー：MV の視聴回数
-    リーガルリリー：spotify, youtube （視聴回数）
-    おぶくろ：ネットワーク
-
-Ask how the tweets collected were chosen. Is it all tweets. Is tweets that have the artists name in them.
-Maybe a hashtag..?
-
-Also ask whether the data like we have for lilly is available for the other artists as well.
-
-Maybe ask whether they have scraped it already
-
-#+END_NOTES
-
-- アーティスト３組: 日向坂46、リーガルリリー、ネクライトーキ
-- 三組共通のデータ：
-  - apple music
-  - 期間中のメディア露出
-  - ツイート情報
-  - フォロワーリスト
-
-* 目次
-#+BEGIN_NOTES
-- 今回はネットワーク分析で使用可能な・面白そうな分析を集めてみました。
-- いただいたデータには
-  - ３アーティストの apple music, tweets, twitter１次
-
-
-プレゼンの構造はこんな感じです
-
-1. 用語
-2. 記述統計
-3. 分析手法の紹介
-4. 問題点
-
-#+END_NOTES
-
- * 用語
- * 記述統計
- * 分析手法の紹介
- * 問題点
-
-* 用語
-
-#+ATTR_HTML: :width 80%
-| 単語                   | 説明                           | 今回で言えば                          |
-|------------------------+--------------------------------+---------------------------------------|
-| ノード (Node)          | データの中の頂点               | 一つのTwitter Account                 |
-| エッジ (Edge)          | データの中の辺                 | 一つのフォロ                          |
-| 入次数 (In-Degree)     | 某ノードに入ってくるエッジ数   | 一人のフォロワー数　                  |
-| 出次数 (Out-Degree)    | 某ノードから出ていくエッジの数 | 一人がフォローしている数              |
-| 次数 (Degree)          | 一つのノードにつながるエッジ数 | 一人のフォロワーとフォロー数の合計    |
-
-#+attr_html: :alt Directed graph  :style border:None;
-[[./images/example_graph.png]]
-
-** エゴネットワーク
-
-
-  - 対象ノード、一次２じフォロワーを含めた集合体をエゴネットワークとよぶ
-  - 今回のネットワークはこれに当てはまります
-
-#+caption:  画像には表示していない、２次フォロワーの間でのフォローも可能
-#+attr_html: :alt "Ego Network" :style border:None; :height 360
-[[./images/egonetwork.png]]
-
-# ** 次数分布
-
-# 定義：ネットワークの入次数や出次数の分布
-# [ [ 次数分布の画像？ ] ]
-# - このネットワークではフォロワー数の分布やフォロー数の分布
-
-** 直径
-定義：ネットワークの最も長い最短経路
-
-#+REVEAL_HTML: <div class="twocolumn" display: flex>
-#+REVEAL_HTML: <div>
-
-- A から D へ：3
-
-- B から D へ：2
-
-- D から C へ：1
-
-- C から B へ： -
-
-#+REVEAL_HTML: </div>
-#+REVEAL_HTML: <div>
-
-#+attr_html: :alt "最短経路" :style border:None;
-#+CAPTION: 最短経路
-    [[./images/shortest_path.jpg]]
-#+REVEAL_HTML: </div>
-#+REVEAL_HTML: </div>
-
-** 平均最短路
-定義：ネットワークの全部の最短経路の平均
-
-- Small world Phenomenon
-- Facebook 上での平均最短路は3.83
-- エゴネットワークだと必ず1と２の間
-
-** クラスター係数
-
-- ノードの周りははどのくらい （密接？）なのかを表す数字
-- ノードの隣のノードの間のエッジ数をあり得るエッジ数で割ったもの
-- ノード \( i \)の次数は \( k_{i} \)
-
-
-#+attr_html: :alt Clustering Coefficient  :height 300 :style border:None;
-#+caption: Clustering Coefficient  [[http://snap.stanford.edu/class/cs224w-2019/slides/02-gnp-smallworld.pdf][ (Source)]]
-[[./images/clustering_coefficient.png]]
-
-** 平均クラスター係数
-- 全体のネットワークのクラスター数の平均
-- おそらくエゴネットワークのためで低く見えてしてまう
-* 分析手法
- * モチーフ分析
-   - 重要性プロファイル
-   - 役割検出
- * コミュニティー検出
- * 中心性
-** 例えば）
-#+BEGIN_NOTES
-こちらのモデルはすごくざっくりしして、イメージにするために使いたいと思います。
-
-
-スライドが終わったら階モデルみたいなのもできるか聞いてみてもいいかも。
-
-例えば、
-When the slide ends, that maybe you could also
-#+END_NOTES
-
-
-\[ Y_{ij} = media_{ij} + tweetinfo_{ij} + other_{ij} + \epsilon \]
-
-- \(Y_{ij}\)は\( i \)日のアーティスト\(j\)視聴回数 (apple_music?)
-
-- \(i \)は日
-
-- \(j \)はアーティスト
-
-- \(media \)はメディアの出現を表す変数（例えば回数）
-
-- \(other \)はその日のその他の変数（例えば曜日など）
-
-- \( tweetinfo_{ij} \) はその\(i\)日にtweetした人の集合体の /signficance profile/やその他のネットワークのプロパティー
-
-* モチーフ分析
-:PROPERTIES:
-:ID:       763981a8-cbc9-46d1-b101-097be7f69a50
+#+REVEAL_EXTRA_CSS: custom.css
+#+REVEAL_TRANS: linear
+#+REVEAL_HLEVEL: 1
 :END:
-- 3ノードの繋がり方は１３通り存在する
+* Theory
+** Expected Return Fair Game
+All "expected return theories" can be described as follows.
+\( E(\tilde p_{j,t+1} | \Phi_{t} ) = [1 + E(\tilde r_{j,t+1}|\Phi_{t})]p_{jt}  \)
+ - \( p_{jt} \) is the price of security \(j\) at time \(t\)
+ - \( r_{jt} \) is the return of \(j\) from \(t-1\) to \(t\)
+ - \( \Phi_t \) is information set at t
+ - ~  indicates random variable
+*** Implication
+From the definition of the model we have.
+\( z_{j,t+1} = r_{j, t+1} - E(\tilde{r}_{j, t+1} | \Phi_t) \)
 
-#+attr_html: :alt "Ego Network" :style border:None;
-[[./images/motifs.png]]
+\( E(\tilde{z}_{j,t+1} | \Phi_t) = 0 \)
 
- 三つのノードの間で可能な繋がり方
+Now let
+ - \( \alpha(\Phi_{t}) = [\alpha_1(\Phi_t), \alpha_2(\Phi_t), ..., \alpha_{n}(\Phi_{t})] \)
+ - \( V_{t+1} = \sum_{j=1}^{n} \alpha_j(\Phi_t)[r_{j, t+1} - E(\tilde{r}_{t, j+1} | \Phi_t ) ] \)
+Then is a testable implication from the expected return efficient markets model.
+ - \( E(\tilde{V}_{t+1} | \Phi_{t} ) = \sum_{j=1}^{n} \alpha_j(\Phi_t) E(\tilde{z}_{t, j+1} | \Phi_t ) = 0 \)
+** Submartingale model
+Makes use of the expected return model as well,
+but we assume that:
 
-** Significance Profile
-#+attr_html: :alt "Ego Network" :style border:None  :height 300
-#+Caption:  [[http://www.uvm.edu/pdodds/teaching/courses/2009-08UVM-300/docs/others/2004/milo2004a.pdf][Superfamilies of Evolved and Designed Networks]]
-[[./images/significance_profile.jpg]]
+ - \( \forall t, \Phi_t ( E(\tilde{r}_{j, t+ 1} | \Phi_t ) \ge 0 \ ) \)
 
-注目点
-- 分野によって重要性プロファイルが似ている
-- それぞれのモチーフの特性を吟味する
-** Significance Profile
-[[./images/significance_profile.jpg]]
-** 実装の手法例
-- ランダムで作ったネットワークの各モチーフの分布に本ネットワークの分布を比べて需要性プロファイルを作成
-- ネットワークにあるモチーフの分布でそのモチーフの重要性を計算数る
-- 3-モチーフ、ノードの関係性
-- ベースのモデルを選び、それに比べて、モチーフの z-score を算出
-- 例えばスケールフリーのネットワークの分布をもつランダムなネットワークをシミュレーション
-- シミュレーションだけではなく、典型的なソーシャルネットワークに比べることもできる
-- アーティスト同士での significance も計算可能
-** Z-scoreの算出
-\( Z_{i} = \frac{N_{i}^{real} - N_{i}^{rand}}{sd(N_{i}^{rand})} \)
+ - The testable assumption here is that expected returns conditional on \( \Phi_t \) cannot have greater expected profits than a policy of always buying-and-holding.
+** Random Walk
+\( f(r_{j, t+1} | \Phi_{t}) = f(r_{j, t+1}) \)
+where \( f \) is a Probability density function. ( and the same probability density function ).
+( Past information tells us nothing about the next step )
+** Market Conditions Consistent with Efficiency
+:PROPERTIES:
+:NOTER_PAGE: 6
+:END:
+* Empirical Results
+ - \( E(\tilde p_{j,t+1} | \Phi_{t} ) = [1 + E(\tilde r_{j,t+1}|\Phi_{t})]p_{jt}  \)
+ - Weak form: \( \Phi_t \) is past data
+ - Semi-strong form: \( \Phi_t \) is news
+ - Strong form: \( \Phi_t \) is investing skill or other monopolistic access to information relevant
+* Weak Form Test Evidence
+** Weak form tests of the efficient markets model
+:PROPERTIES:
+:NOTER_PAGE: 8
+:END:
+*** Random Walks and Fair Games: A little Historical Background
+:PROPERTIES:
+:NOTER_PAGE: 8
+:END:
+Random Walk theory can basically be interpreted as a special case of the Fair Game Theory, thus tests of the Random Walk theory are tests of the Fair Game Theory by extension
+*** Test of Market Efficiency in the Random Walk Literature
+:PROPERTIES:
+:NOTER_PAGE: 10
+:END:
+ - In Random Walk theory, tests of the Efficient Markets models were often conducted
+ - They were conducted by using the serial covariances of returns
+ - Even though this kind of test is stricter than needed for the "Fair Game" theory it seems to hold up
 
-- \( N_{i}^{real} \)  (モチーフ \( i \)　が実際に起きた回数)
+#+REVEAL: split
 
-- \( N_{i}^{rand} \)  (モチーフ \( i \) がシミュレーションで起きた回数)
+[[file:./images/screenshot-05.png]]
+ * Coefficient is twice its computed standard error.
+*** Other Tests of Independence In The Random Walk Literature
+:PROPERTIES:
+:NOTER_PAGE: 15
+:END:
+However, Random walk theory fails on some parts
+ - Large changes are followed by large changes
+   However, sign is seemingly random
+ - Reversals are more likely than continuations
+ - Continuations are more likely after continuations than after reversals
 
-** 役割検出
-- 各ノードのモチーフ分布をみて、ネットワークの中での役割を見つける
+These phenomena do point to the existence of market inefficiencies, but not of the semi-strong form, but of the strong form
+*** TODO "Fair Game" Models in the Treasury Bill Market
+:PROPERTIES:
+:NOTER_PAGE: 19
+:END:
+*** TODO Tests of a Multiple Security Expected Return Model
+:PROPERTIES:
+:NOTER_PAGE: 20
+:END:
+* Semi-strong Form Test Evidence
+These tests are usually done with a certain type of event.
+In this paper the main type of event introduced were stock splits.
+** Splits and the Adjustment of Stock Prices to New Information
+ - Splits themselves are not new sources of information
+ - Splits are assumed to be proxies for other important information
+ - If stock splits are associated with abnormal behavior, this would be reflected in
+   the estimated regression residuals in the months surrounding the splits
+ - Average and cumulative average residuals in months before splits are calculated
+ - Stocks were usually split in extraordinarily good times
 
-#+REVEAL_HTML: <div class="twocolumn" display: flex>
-#+REVEAL_HTML: <div>
-#+attr_html: :alt "役割検出" :style border:None;
-#+CAPTION: 役割検出
-    [[./images/role_discovery.png]]
+#+REVEAL: split
+[[file:./images/screenshot-06.png]]
 
-#+REVEAL_HTML: </div>
-#+REVEAL_HTML: <div>
+#+REVEAL: split
+[[file:./images/screenshot-07.png]]
 
-- 青：一人をフォローする役割
-- 緑：フォローされる役割
-- 赤：複数人をフォローする人
-
-#+REVEAL_HTML: </div>
-#+REVEAL_HTML: </div>
-** RolX
-
-#+attr_html: :alt 役割検出  :width 800 :style border:None;
-#+CAPTION: Co-Authorship Net [[http://snap.stanford.edu/class/cs224w-2019/slides/03-motifs.pdf][ (Source)]]
-    [[./images/role_disc_example.png]]
-
-# * コミュニティー検出
-# - コミュニティーのクラスタリングアルゴリズムを使用
-
-# - 現在届いていないようなコミュにテーにに突破
-
-# - エゴネットワークでしても、できることはそんなに増えない可能性が高い
-
-# - エゴネットワークで行っても、新しいことはそんなに増えない
-# - なんでかというと本当は自分がまだ届いていないようなコミュニティーを探り出すことが理想だが、エゴネットワークには、そういうコミュニティーの検出は不可能
-
-* 例えば）
-#+BEGIN_NOTES
-
-こちらのモデルはすごくざっくりしして、イメージにするために使いたいと思います。
-
-
-スライドが終わったら階モデルみたいなのもできるか聞いてみてもいいかも。
-
-例えば、
-
-When the slide ends, that maybe you could also
-
-#+END_NOTES
-
-\[ Y_{ij} = media_{ij} + tweetinfo_{ij} + other_{ij} + \epsilon \]
-
-- \(Y_{i}{j}\)は\( i \)日のアーティスト\(j\)視聴回数 (apple_music?)
-
-- \(i \)は日
-
-- \(j \)はアーティスト
-
-- \(media \)はメディアの出現を表す変数（例えば回数）
-
-- \(other \)はその日のその他の変数（例えば曜日など）
-
-- \( tweetinfo \) を潜在変数にし、別のモデルで作成（twitter userレベルで作成）
-
-* 中心性
-
-- 中心性の種類いくつかある
-
-  * 入次数中心性：フォロワーの一番多い人
-
-  * 近接中心性：全員への平均最短ルートが一番短い
-
-  * 媒介中心性：全員から全員への最短ルートに最も出てくるノード
-
-  * PageRank: 最も人気のあるノードに人気のあるノードのこと
-
-- エゴネットワークのための特別なものもある ([[https://www.sciencedirect.com/science/article/abs/pii/S037887330400067X][Here]])
-
-- Ego Networkではみてもそこまで
-
-* 問題点
- - エゴネットワークしかないため、できることが限られてくる
-   + 幅優先探索ではなく深さ優先でデータを収集は可能か？
-   + 例えば一つのアカウントの全員のフォロワーの情報ではなくランダムで選んだ数人にうつり、そうやって進む
-   + そうすれば全体のネットワークの構造にもっと近い物ができるのではないかと
- - ネットワーク解析でいいツールを見つけるのは少し難しい
-* Sources:
-- [[./references/02-gnp-smallworld.pdf][Basics]]
-- [[./references/03-motifs.pdf][Motifs]]
-- [[./references/04-communities.pdf][Communities]]
-- [[./references/11-pagerank.pdf][Pagerank]]
+#+REVEAL: split
+*** Considering Dividend increases and decreases
+ - When the dividend increases after a split, we can see that there are slight increases in stock price
+ - When the dividend decreases after a split, the stock prices decreases a lot, and falls to around the level of 5 months before the split
+ - This might be the level of when we first hear about the stock dividends
+#+REVEAL: split
+[[file:./images/screenshot-08.png]]
+*** Considering the splits as a whole
+ - We can see that when considering all splits as a whole
+   the stock price stays the same and thus we can say that the market captures all publicly available information
+* Strong Form Tests Evidence
+** Empirical Results
+ - Funds seem to not outperformt he market
+* Conclusion
+ - Efficient Market models seem to not be refutes by the tests
+ - It was very interesting that many problems that many problems were pointed out here already
