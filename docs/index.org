@@ -31,6 +31,10 @@ Now let
  - \( V_{t+1} = \sum_{j=1}^{n} \alpha_j(\Phi_t)[r_{j, t+1} - E(\tilde{r}_{t, j+1} | \Phi_t ) ] \)
 Then is a testable implication from the expected return efficient markets model.
  - \( E(\tilde{V}_{t+1} | \Phi_{t} ) = \sum_{j=1}^{n} \alpha_j(\Phi_t) E(\tilde{z}_{t, j+1} | \Phi_t ) = 0 \)
+#+BEGIN_NOTES
+Efficient Markets: 効率市場仮説（効率市場仮説）
+#+END_NOTES
+
 ** Submartingale model
 Makes use of the expected return model as well,
 but we assume that:
@@ -82,6 +86,10 @@ These phenomena do point to the existence of market inefficiencies, but not of t
 * Semi-strong Form Test Evidence
 These tests are usually done with a certain type of event.
 In this paper the main type of event introduced were stock splits.
+#+BEGIN_NOTES
+Stock splits: 株式分割
+#+END_NOTES
+
 ** Splits and the Adjustment of Stock Prices to New Information
  - Splits themselves are not new sources of information
  - Splits are assumed to be proxies for other important information
@@ -96,7 +104,6 @@ In this paper the main type of event introduced were stock splits.
 #+REVEAL: split
 [[file:./images/screenshot-07.png]]
 
-#+REVEAL: split
 *** Considering Dividend increases and decreases
  - When the dividend increases after a split, we can see that there are slight increases in stock price
  - When the dividend decreases after a split, the stock prices decreases a lot, and falls to around the level of 5 months before the split
