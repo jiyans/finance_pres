@@ -42,26 +42,18 @@ but we assume that:
 \( f(r_{j, t+1} | \Phi_{t}) = f(r_{j, t+1}) \)
 where \( f \) is a Probability density function. ( and the same probability density function ).
 ( Past information tells us nothing about the next step )
-** Market Conditions Consistent with Efficiency
-:PROPERTIES:
-:NOTER_PAGE: 6
-:END:
 * Empirical Results
  - \( E(\tilde p_{j,t+1} | \Phi_{t} ) = [1 + E(\tilde r_{j,t+1}|\Phi_{t})]p_{jt}  \)
  - Weak form: \( \Phi_t \) is past data
  - Semi-strong form: \( \Phi_t \) is news
  - Strong form: \( \Phi_t \) is investing skill or other monopolistic access to information relevant
 * Weak Form Test Evidence
-** Weak form tests of the efficient markets model
-:PROPERTIES:
-:NOTER_PAGE: 8
-:END:
-*** Random Walks and Fair Games: A little Historical Background
+** Random Walks and Fair Games: A little Historical Background
 :PROPERTIES:
 :NOTER_PAGE: 8
 :END:
 Random Walk theory can basically be interpreted as a special case of the Fair Game Theory, thus tests of the Random Walk theory are tests of the Fair Game Theory by extension
-*** Test of Market Efficiency in the Random Walk Literature
+** Test of Market Efficiency in the Random Walk Literature
 :PROPERTIES:
 :NOTER_PAGE: 10
 :END:
@@ -73,7 +65,7 @@ Random Walk theory can basically be interpreted as a special case of the Fair Ga
 
 [[file:./images/screenshot-05.png]]
  * Coefficient is twice its computed standard error.
-*** Other Tests of Independence In The Random Walk Literature
+** Other Tests of Independence In The Random Walk Literature
 :PROPERTIES:
 :NOTER_PAGE: 15
 :END:
@@ -84,14 +76,9 @@ However, Random walk theory fails on some parts
  - Continuations are more likely after continuations than after reversals
 
 These phenomena do point to the existence of market inefficiencies, but not of the semi-strong form, but of the strong form
-*** TODO "Fair Game" Models in the Treasury Bill Market
-:PROPERTIES:
-:NOTER_PAGE: 19
-:END:
-*** TODO Tests of a Multiple Security Expected Return Model
-:PROPERTIES:
-:NOTER_PAGE: 20
-:END:
+** More tests
+ - Fair game models in the treasury bill market
+ - Multiple security expected return model
 * Semi-strong Form Test Evidence
 These tests are usually done with a certain type of event.
 In this paper the main type of event introduced were stock splits.
@@ -119,9 +106,22 @@ In this paper the main type of event introduced were stock splits.
 *** Considering the splits as a whole
  - We can see that when considering all splits as a whole
    the stock price stays the same and thus we can say that the market captures all publicly available information
+** Other studies of public announcements
+ - Annual earnings announcements
+ - Announcements of discount rate changes
+ - Large secondary offerings of stock on newly issued stock
 * Strong Form Tests Evidence
+** Theoretical framework
+   - In the strong form tests we want to study whether individuals with "monopolistic" access to information are able to obtain higher than expected profits
+   - To do that we look at whether
+     a) whether in general fund managers are able to generate "abnormal" returns
+     b) whether some funds are better att uncovering special information than others.
+   - The major problem with this kind of test is the creation of the base model
+
 ** Empirical Results
- - Funds seem to not outperformt he market
+ - Fama cites Jensen, who measured risk-return performance of 115 mutual funds from 1955-1964
+ - As far as net returns to investors are concerned, funds seem to not outperform the market
+ - Just holding the market portfolio would have left most investors better off
 * Conclusion
  - Efficient Market models seem to not be refutes by the tests
  - It was very interesting that many problems that many problems were pointed out here already
